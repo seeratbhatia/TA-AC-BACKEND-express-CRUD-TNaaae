@@ -26,7 +26,7 @@ router.get('/id', (req, res) => {
     res.render('singleUser.ejs')
 });
 
-router.get('/id/edit', (req, res) => {
+router.get('/id/edit', (req, res, next) => {
     var id = req.params.id;
     user.findById(id, (err, user) => {
         if(err) return next(err);
@@ -34,7 +34,7 @@ router.get('/id/edit', (req, res) => {
     })         if(err) return next(err);
 
 
-router.put('/id', (req, res) => {
+router.put('/id', (req, res, next) => {
     // capture the data from the update form
     var id = req.params.id;
     user.findByIdAndUpdate(id, req.body, (err, updatedUser) => {
@@ -43,7 +43,13 @@ router.put('/id', (req, res) => {
     }) 
 });
 
-router.delete('/id', (req, res) => {
+router.get('/id/delete', (req, res, next) => {
     // delete the user
+    var id = req.params.id;
+    user.findByIdAndDelete(id, (err, deletedUser) => {
+        if(err) return next(err);
+        res.redirect('/users')
+    }) 
+
 });
 module.exports = router;
