@@ -27,11 +27,20 @@ router.get('/id', (req, res) => {
 });
 
 router.get('/id/edit', (req, res) => {
-    // edit form
-});
+    var id = req.params.id;
+    user.findById(id, (err, user) => {
+        if(err) return next(err);
+        res.render('editUser', { user })
+    })         if(err) return next(err);
+
 
 router.put('/id', (req, res) => {
-    // capture the update form
+    // capture the data from the update form
+    var id = req.params.id;
+    user.findByIdAndUpdate(id, req.body, (err, updatedUser) => {
+        if(err) return next(err);
+        res.redirect('/users')
+    }) 
 });
 
 router.delete('/id', (req, res) => {
